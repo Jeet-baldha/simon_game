@@ -3,6 +3,7 @@ var randomColorList = [];
 var userColorList = [];
 
 var level = 0;
+var index = 0; 
 var started = false;
 
 $(document).keypress(function(){
@@ -32,9 +33,41 @@ function gameStart(){
 
 }
 
-function checkAns(){
+function checkAns(currnetColor){
 
+    if(randomColorList[index] === currnetColor){
+        console.log('correct answer!');
+    }
+    else {
+
+        playSound('wrong');
+        $('body').addClass('game-over');
     
+        setTimeout(() => {
+            $('body').removeClass('game-over');
+        }, 150);
+
+        setTimeout(() => {
+            
+            location.reload();
+            
+        }, 1000);   
+    }
+
+    index++;
+
+    if(index === randomColorList.length){
+    
+        console.log('new equence')
+        setTimeout(() => {
+            index = 0;    
+            gameStart();
+            
+        }, 1200);  
+       
+    }
+
+
 
 }
 
@@ -46,7 +79,8 @@ for(var i =0;i < numberOfBtn;i++){
     $(buttons[i]).click(function(){
         var btn = this.id;
         userColorList.push(btn);
-        checkAns();
+        
+        checkAns(btn);
         playSound(btn);
         makeAnimation(btn);
     });
